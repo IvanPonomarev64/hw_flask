@@ -5,5 +5,5 @@ from urls import *
 
 if __name__ == "__main__":
     create_table(engine, insp)
-    app.run()
+    flask_app.run()
 

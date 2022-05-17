@@ -16,11 +16,11 @@ host = "http://127.0.0.1:5000"
 # })
 
 # Создаем объявление
-res = requests.post(f"{host}/adv-post/", json={
-    "title": "title",
-    "description": "advertisement_test",
-    "token": '4e5bad0c-f3ca-47ca-b103-fd05aebc1322'
-})
+# res = requests.post(f"{host}/adv-post/", json={
+#     "title": "title",
+#     "description": "advertisement_test",
+#     "token": '4e5bad0c-f3ca-47ca-b103-fd05aebc1322'
+# })
 
 # Получаем объявление
 # res = requests.get(f"{host}/adv-get/", json={

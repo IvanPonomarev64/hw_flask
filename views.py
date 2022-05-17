@@ -7,6 +7,7 @@ from settings import Session
 from db.tables import Owner, Advertisement, Token
 
 from exception import HTTPError
+from tasks import send_mail
 
 
 class AdvertisementView(MethodView, CreateModel):
@@ -56,3 +57,32 @@ def login():
             session.add(token)
             session.commit()
             return jsonify({'token': token.id})
+
+
+class SendEmailView(MethodView):
+    def post(self):
+        data = request.json
+        owners_id = data['id']
+        users = Owner.query.filter(Owner.id.ilike(f"%{owners_id}%"))
+
+        emails = []
+        for user in users:
+            emails.append(user.email)
+        email_data = {
+            'subject': 'Test',
+            'body': 'I hope you got my message'
+        }
+        task = send_mail.delay(emails, email_data)
+        return jsonify(
+            {
+                "id your task": task.id
+            }
+        )
+
+    def get(self, task_id):
+        task = send_mail.AsyncResult(task_id)
+        return jsonify(
+            {
+                "the ready status of your task": task.status
+            }
+        )
